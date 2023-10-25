@@ -11,8 +11,12 @@ package se.dsve.adventureawaits;
 import java.util.Random;
 
 public class Boss extends Monster {
-    public Boss() {
-        //  Skriv din kod här
+    public Boss(String name, int damage, int xpReward) {
+        super(name, damage, xpReward);
+        this.name = name;
+        this.damage = damage;
+        this.xpReward = xpReward;
+
         //  multiplyRewards();
         //  if (somthing) {
         //      throw new IllegalArgumentException();
