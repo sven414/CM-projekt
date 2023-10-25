@@ -8,21 +8,50 @@ package se.dsve.adventureawaits;
  * ----------------------------------------------------------------------------
  */
 
+import se.dsve.Main;
+
 public class Shop {
-    public int weaponUpgradeCost;
-    public int hpRestoreCost;
+    private int weaponUpgradeCost;
+    private int hpRestoreCost;
+    private int healthPrice = 2;
 
-    public  void restoreHp(Player player) {
-        // Skriv din kod här
+    public Shop() {
+        this.weaponUpgradeCost = 10;
+        this.healthPrice = 2;
     }
 
-    public  void upgradeWeapon(Player player) {
-        // Skriv din kod här
-        // Tips: Använd player.weapon.damage för att öka skadan med 10 %
+    //Metod för att återställa spelarens hälsa
+    public void restoreHp(Player player) {
+        System.out.println("Du har valt att uppgradera din hälsa. Mycket bra val!");
+        int injury = 100 - player.getHp();                                                  // 100 är maxHealth
+        hpRestoreCost = injury * healthPrice;                                                    // healthPrice är priset för återställd justeras efterhand
+        if (player.getGoldAmount() >= hpRestoreCost) {                                         // Om man har tillräckligt med guld för att nå maxhälsa
+            player.addGold(player.getGoldAmount() - hpRestoreCost);                        // Betalning via setter i Player-klassen
+            player.setHp(100);                                                              // Maxar upp hälsan via setter o Player-klassen
+            System.out.println("Din hälsa har återställt till 100% .");
+        } else if (player.getGoldAmount() < hpRestoreCost && player.getGoldAmount() != 0) {      // Om man inte har guld för maxhälsa
+            int affordableHealth = player.getGoldAmount() / healthPrice;                         // Räknar ut hur mycket hälsa man kan få för pengarna
+            player.addGold(0);                                                             // Betalning är allt guld man har
+            player.setHp(player.getHp() + affordableHealth);                           // Uppdatera hälsan till befintlig hälsa + så mycket hälsa man har råd med
+            System.out.println("Din hälsa har återställts till " + player.getHp() + "%. Det är så mycket du hade råd med.");
+        } else {
+            System.out.println("Du har inget guld att köpa hälsa för.");
+        }
     }
-
-    public static void showMenu(Player player) {
-        // Skriv din kod här
-        // Skriv ut saldot för spelaren och alternativen i shoppen
+    public void upgradeWeapon(Player player, Weapon weapon) {
+        int gold = player.getGoldAmount();
+        if (weaponUpgradeCost <= gold) {
+            System.out.println("Ditt vapen är på nivå " + weapon.getDamage() + ".");
+            System.out.println("Du har " + gold + " guld att handla för.");
+            System.out.println("Att uppgradera vapnet en nivå kostar " + weaponUpgradeCost + " guld.");
+            String choise = Main.readPrompt("Vill du uppgradera vapnet en nivå? (Y/N)");
+            if (choise == "Y") {
+                player.getWeapon().setDamage(+10);
+                System.out.println("Ditt vapen har nu uppdaterats.");
+            }
+        } else {
+            System.out.println("Du har inte tillräckligt med guld för att uppgradera ditt vapen.");
+        }
     }
 }
+

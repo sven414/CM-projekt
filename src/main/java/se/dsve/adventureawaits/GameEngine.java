@@ -9,35 +9,60 @@ package se.dsve.adventureawaits;
  */
 
 public class GameEngine {
-    public int startHp;
-    public int levelXp;
-    public int weaponDamage;
+    private Menu menu;
+    private Player player;
+    private int startHp;
+    private int levelXp;
+    private int weaponDamage;
+    private String gameState;
     private boolean gameStarted;
 
+
+    public GameEngine(Player player, Menu menu) {
+        this.menu = menu;
+        this.player = player;
+        this.startHp = player.getHp();
+        this.levelXp = player.getXp();
+        this.weaponDamage = player.getWeapon().getDamage();
+        this.gameStarted = true;
+    }
+
     // Getter for startHp
-    public int getStartHp() {
-        // Skriv din kod här
+
+    public void setDifficulty(int difficulty) {
+
     }
 
-    public void setDifficulty(int startHp, int levelXp, int weaponDamage) {
-        // Skriv din kod här
-        // Om spelet inte har startat än, så kan du ändra svårighetsgraden
-    }
-
-    public void startGame() {
-        // Skriv din kod här
-        // Start the game
+    public void startGame(Player player, Menu menu, Shop shop, Weapon weapon) {
+        this.player = player;
+        menu.yourName(player);
+        System.out.println("Hej " + player.getName() + "!");
+        gameStarted = true;
+        gameLoop(shop, weapon);
     }
 
     public void endGame() {
         // End the game
     }
 
-    public void gameLoop() {
-        // Main game loop
+    public void gameLoop(Shop shop, Weapon weapon) {
+        while (gameStarted) {
+            if (player.getLevel() >= 10 || !player.isAlive()) {             //så länge spelare lever och inte nått nivå tio
+                setGameStarted(false);
+                break;
+            }
+            String choice = menu.showMenu("mainMenu", player, shop, weapon);          // Anrop för att visa menyn
+            setGameStarted(true);
+            break;
+        }
     }
 
     public boolean isGameStarted() {
-        // Skriv din kod här
+        return gameStarted;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
     }
 }
+

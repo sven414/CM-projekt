@@ -8,24 +8,33 @@ package se.dsve.adventureawaits;
  * ----------------------------------------------------------------------------
  */
 
-public class Weapon {
-    public String name;
-    public int damage;
+import java.util.Random;
 
-    public Weapon() {
-        this.name = "träklubba";
-        this.damage = 10;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
+public class Boss extends Monster {
+    public Boss(String name, int damage, int xpReward) {
+        super(name, damage, xpReward);
+        this.name = name;
         this.damage = damage;
+        this.xpReward = xpReward;
+
+        //  multiplyRewards();
+        //  if (somthing) {
+        //      throw new IllegalArgumentException();
+        //  }
+    }
+
+    public void specialAttack(Player player) {
+        // Skriv din kod här
+        // 30 % chans att göra 50 % extra skada
+    }
+
+    public void specialDefend(Player player) {
+        // Skriv din kod här
+        // 30 % chans att blockera 50 % av spelarens skada
+    }
+
+    public void multiplyRewards() {
+        // Skriv din kod här
+        // 50 % extra guld och xp
     }
 }
