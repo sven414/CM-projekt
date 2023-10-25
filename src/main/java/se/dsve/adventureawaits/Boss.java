@@ -18,8 +18,6 @@ public class Boss extends Monster {
         this.xpReward = xpReward;
 
         //  multiplyRewards();
-        //  if (somthing) {
-        //      throw new IllegalArgumentException();
         //  }
     }
 
